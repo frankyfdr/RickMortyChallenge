@@ -6,6 +6,11 @@ The app consumes the Rick and Morty API and provides a clean mobile experience f
 
 ---
 
+<img width="300" height="2622" alt="Image" src="https://github.com/user-attachments/assets/eb3d7273-8ea6-4492-a77b-46d660d1a5a7" />
+<img width="300" height="2622" alt="Image" src="https://github.com/user-attachments/assets/72938c5e-39d9-49be-84a8-97bbceffd1ec" />
+
+
+
 ## Overview
 
 This project focuses on:
