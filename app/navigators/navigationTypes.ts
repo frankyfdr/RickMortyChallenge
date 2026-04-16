@@ -7,6 +7,8 @@ import {
 } from "@react-navigation/native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
+import type { Episode } from "@/features/episodes/types/episodes.types"
+
 // Demo Tab Navigator types
 export type DemoTabParamList = {
   DemoCommunity: undefined
@@ -17,7 +19,8 @@ export type DemoTabParamList = {
 
 // App Stack Navigator types
 export type AppStackParamList = {
-  Welcome: undefined
+  EpisodesList: undefined
+  EpisodeDetail: { episodeId: number; episode?: Episode }
   Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here

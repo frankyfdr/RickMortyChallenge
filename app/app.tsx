@@ -38,10 +38,16 @@ export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 const prefix = Linking.createURL("/")
 const config = {
   screens: {
+    EpisodesList: "episodes",
+    EpisodeDetail: {
+      path: "episode/:episodeId",
+      parse: {
+        episodeId: Number,
+      },
+    },
     Login: {
       path: "",
     },
-    Welcome: "welcome",
     Demo: {
       screens: {
         DemoShowroom: {

@@ -21,62 +21,100 @@ export interface ErrorDetailsProps {
  */
 export function ErrorDetails(props: ErrorDetailsProps) {
   const { themed } = useAppTheme()
+  const showDebugDetails = __DEV__
+
   return (
     <Screen
       preset="fixed"
       safeAreaEdges={["top", "bottom"]}
       contentContainerStyle={themed($contentContainer)}
     >
-      <View style={$topSection}>
-        <Icon icon="ladybug" size={64} />
-        <Text style={themed($heading)} preset="subheading" tx="errorScreen:title" />
-        <Text tx="errorScreen:friendlySubtitle" />
-      </View>
+      <View style={themed($card)}>
+        <View style={themed($iconContainer)}>
+          <Icon icon="ladybug" size={40} />
+        </View>
 
-      <ScrollView
-        style={themed($errorSection)}
-        contentContainerStyle={themed($errorSectionContentContainer)}
-      >
-        <Text style={themed($errorContent)} weight="bold" text={`${props.error}`.trim()} />
-        <Text
-          selectable
-          style={themed($errorBacktrace)}
-          text={`${props.errorInfo?.componentStack ?? ""}`.trim()}
+        <View style={themed($topSection)}>
+          <Text style={themed($heading)} preset="subheading" tx="errorScreen:title" />
+          <Text style={themed($subtitle)} tx="errorScreen:friendlySubtitle" />
+        </View>
+
+        {showDebugDetails ? (
+          <ScrollView
+            style={themed($errorSection)}
+            contentContainerStyle={themed($errorSectionContentContainer)}
+          >
+            <Text style={themed($errorContent)} weight="bold" text={`${props.error}`.trim()} />
+            <Text
+              selectable
+              style={themed($errorBacktrace)}
+              text={`${props.errorInfo?.componentStack ?? ""}`.trim()}
+            />
+          </ScrollView>
+        ) : null}
+
+        <Button
+          preset="filled"
+          style={themed($resetButton)}
+          onPress={props.onReset}
+          tx="errorScreen:reset"
         />
-      </ScrollView>
-
-      <Button
-        preset="reversed"
-        style={themed($resetButton)}
-        onPress={props.onReset}
-        tx="errorScreen:reset"
-      />
+      </View>
     </Screen>
   )
 }
 
-const $contentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $contentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
-  paddingTop: spacing.xl,
+  backgroundColor: colors.background,
   flex: 1,
+  justifyContent: "center",
+  paddingHorizontal: spacing.lg,
+  paddingVertical: spacing.xl,
 })
 
-const $topSection: ViewStyle = {
-  flex: 1,
-  alignItems: "center",
-}
+const $card: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  alignSelf: "stretch",
+  backgroundColor: colors.palette.neutral100,
+  borderColor: colors.border,
+  borderRadius: 20,
+  borderWidth: 1,
+  maxWidth: 560,
+  padding: spacing.lg,
+  width: "100%",
+})
 
-const $heading: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.error,
+const $iconContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  alignItems: "center",
+  backgroundColor: colors.errorBackground,
+  borderRadius: 999,
+  height: 72,
+  justifyContent: "center",
+  marginBottom: spacing.md,
+  overflow: "hidden",
+  width: 72,
+})
+
+const $topSection: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginBottom: spacing.md,
 })
 
+const $heading: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
+  color: colors.text,
+  marginBottom: spacing.xs,
+  textAlign: "center",
+})
+
+const $subtitle: ThemedStyle<TextStyle> = ({ colors }) => ({
+  color: colors.textDim,
+  textAlign: "center",
+})
+
 const $errorSection: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  flex: 2,
   backgroundColor: colors.separator,
-  marginVertical: spacing.md,
-  borderRadius: 6,
+  borderRadius: 12,
+  marginBottom: spacing.md,
+  maxHeight: 220,
 })
 
 const $errorSectionContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -88,11 +126,11 @@ const $errorContent: ThemedStyle<TextStyle> = ({ colors }) => ({
 })
 
 const $errorBacktrace: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  marginTop: spacing.md,
   color: colors.textDim,
+  marginTop: spacing.md,
 })
 
-const $resetButton: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.error,
-  paddingHorizontal: spacing.xxl,
+const $resetButton: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginTop: spacing.xs,
+  width: "100%",
 })

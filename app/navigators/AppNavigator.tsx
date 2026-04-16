@@ -8,8 +8,9 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import Config from "@/config"
+import { EpisodeDetailScreen } from "@/screens/EpisodeDetailScreen"
+import { EpisodesListScreen } from "@/screens/EpisodesListScreen"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { useAppTheme } from "@/theme/context"
 
 import type { AppStackParamList, NavigationProps } from "./navigationTypes"
@@ -24,6 +25,10 @@ const exitRoutes = Config.exitRoutes
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
+/**
+ * Episodes flow stack.
+ * Keeps the list and detail routes grouped in one typed navigation flow.
+ */
 const AppStack = () => {
   const {
     theme: { colors },
@@ -39,9 +44,12 @@ const AppStack = () => {
         },
       }}
     >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      <Stack.Screen name="EpisodesList" component={EpisodesListScreen} />
+      <Stack.Screen
+        name="EpisodeDetail"
+        component={EpisodeDetailScreen}
+        options={{ headerShown: true, title: "Episode details" }}
+      />
     </Stack.Navigator>
   )
 }

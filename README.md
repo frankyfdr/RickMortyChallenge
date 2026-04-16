@@ -1,77 +1,266 @@
-# Welcome to your new ignited app!
+# Rick and Morty Challenge
 
-> The latest and greatest boilerplate for Infinite Red opinions
+A technical challenge app built with Ignite, Expo, React Native, and TypeScript.
 
-This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way to test bleeding-edge changes to our React Native stack.
+The app consumes the Rick and Morty API and provides a clean mobile experience for browsing episodes and viewing the characters that appear in each episode.
 
-- [Quick start documentation](https://github.com/infinitered/ignite/blob/master/docs/boilerplate/Boilerplate.md)
-- [Full documentation](https://github.com/infinitered/ignite/blob/master/docs/README.md)
+---
+
+## Overview
+
+This project focuses on:
+
+- scalable feature-based architecture
+- clean separation between UI, hooks, services, and types
+- typed React Navigation flows
+- reusable themed components
+- API-driven filtering and fetching
+- a polished user experience with search, pull-to-refresh, offline-friendly states, and theme switching
+
+---
+
+## Tools and Technologies Used
+
+### Core stack
+
+- React Native
+- Expo Dev Client
+- Ignite boilerplate
+- TypeScript
+- React Navigation
+
+### UI and developer experience
+
+- Ignite theming system
+- React Native Reanimated and Animated APIs
+- MMKV storage for persisted theme preferences
+- Reactotron for development debugging
+
+### Testing and quality
+
+- Jest
+- React Native Testing Library
+- ESLint
+- Prettier
+- TypeScript compiler checks
+
+### API
+
+- Rick and Morty API
+- native fetch with typed service wrappers
+- query param support for name and episode filtering
+
+---
+
+## Architecture
+
+The project follows a feature-based approach inside the app folder.
+
+```text
+app/
+  features/
+    episodes/
+      components/
+      hooks/
+      services/
+      types/
+  screens/
+  navigators/
+  components/
+  theme/
+  utils/
+```
+
+### Architectural principles
+
+#### UI components
+
+Presentational components live close to the feature and only care about rendering.
+
+Examples:
+
+- EpisodeCard
+- CharacterCard
+
+#### Hooks
+
+Hooks manage state, effects, API-driven filtering, memoization, and refresh behavior.
+
+Examples:
+
+- useEpisodes
+- useEpisodeCharacters
+
+#### Services
+
+Service files are responsible only for API communication and normalized error handling.
+
+Example:
+
+- episodesApi
+
+#### Types
+
+Shared contracts and interfaces are centralized in one place for better reuse and stronger typing.
+
+Example:
+
+- episode, character, paginated response, navigation params
+
+#### Navigation
+
+The app uses a typed stack flow:
+
+- EpisodesList
+- EpisodeDetail
+
+---
+
+## Features Implemented
+
+### Episodes list
+
+- fetches episodes from the API
+- search is handled through the Rick and Morty API using supported query params
+- supports filtering by episode name or episode code
+- pull-to-refresh support
+- loading, error, and empty states
+- top theme toggle button
+- memoized separation between the search header and the list to reduce unnecessary re-renders while typing
+
+### Episode details
+
+- receives the episode through typed React Navigation params
+- also supports a stable episode id for better refresh resilience
+- shows summary information for the selected episode
+- fetches characters for that episode
+- renders a responsive character list
+
+### Character information
+
+- image
+- name
+- status badge
+- species
+- gender
+- type
+- origin
+- location
+
+### UX improvements
+
+- light and dark theme switching
+- simple card entry animations
+- offline-friendly error messages
+- responsive spacing and reusable styles
+- debounced search input before API requests
+
+---
+
+## Project Structure Notes
+
+Although the original exercise mentioned a src folder, this implementation uses the existing Ignite app structure because the project already ships with aliases and theming configured there.
+
+That means the feature architecture was integrated into the current app layout instead of forcing a second parallel source root.
+
+---
 
 ## Getting Started
 
-```bash
-yarn install
-yarn start
-```
-
-To make things work on your local simulator, or on your phone, you need first to [run `eas build`](https://github.com/infinitered/ignite/blob/master/docs/expo/EAS.md). We have many shortcuts on `package.json` to make it easier:
+### 1. Install dependencies
 
 ```bash
-yarn build:ios:sim # build for ios simulator
-yarn build:ios:device # build for ios device
-yarn build:ios:prod # build for ios device
+npm install
 ```
 
-### `./assets`
+### 2. Start the development server
 
-This directory is designed to organize and store various assets, making it easy for you to manage and use them in your application. The assets are further categorized into subdirectories, including `icons` and `images`:
-
-```tree
-assets
-├── icons
-└── images
+```bash
+npm run start
 ```
 
-**icons**
-This is where your icon assets will live. These icons can be used for buttons, navigation elements, or any other UI components. The recommended format for icons is PNG, but other formats can be used as well.
+### 3. Run the iOS development build
 
-Ignite comes with a built-in `Icon` component. You can find detailed usage instructions in the [docs](https://github.com/infinitered/ignite/blob/master/docs/boilerplate/app/components/Icon.md).
-
-**images**
-This is where your images will live, such as background images, logos, or any other graphics. You can use various formats such as PNG, JPEG, or GIF for your images.
-
-Another valuable built-in component within Ignite is the `AutoImage` component. You can find detailed usage instructions in the [docs](https://github.com/infinitered/ignite/blob/master/docs/Components-AutoImage.md).
-
-How to use your `icon` or `image` assets:
-
-```typescript
-import { Image } from 'react-native';
-
-const MyComponent = () => {
-  return (
-    <Image source={require('assets/images/my_image.png')} />
-  );
-};
+```bash
+npm run ios
 ```
 
-## Running Maestro end-to-end tests
+### 4. Run Android
 
-Follow our [Maestro Setup](https://ignitecookbook.com/docs/recipes/MaestroSetup) recipe.
+```bash
+npm run android
+```
 
-## Next Steps
+> This project uses Expo Dev Client, so a development build must be installed before the app can run on a simulator or device.
 
-### Ignite Cookbook
+---
 
-[Ignite Cookbook](https://ignitecookbook.com/) is an easy way for developers to browse and share code snippets (or “recipes”) that actually work.
+## Useful Scripts
 
-### Upgrade Ignite boilerplate
+| Script             | Purpose                        |
+| ------------------ | ------------------------------ |
+| npm run start      | Start Expo with dev client     |
+| npm run ios        | Build and open the iOS app     |
+| npm run android    | Build and open the Android app |
+| npm run web        | Run the web target             |
+| npm run compile    | Run TypeScript checks          |
+| npm run lint:check | Check lint issues              |
+| npm run test       | Run unit tests                 |
 
-Read our [Upgrade Guide](https://ignitecookbook.com/docs/recipes/UpdatingIgnite) to learn how to upgrade your Ignite project.
+---
 
-## Community
+## Why This Architecture Works Well
 
-⭐️ Help us out by [starring on GitHub](https://github.com/infinitered/ignite), filing bug reports in [issues](https://github.com/infinitered/ignite/issues) or [ask questions](https://github.com/infinitered/ignite/discussions).
+This structure makes the project easier to scale because each feature can own:
 
-💬 Join us on [Slack](https://join.slack.com/t/infiniteredcommunity/shared_invite/zt-1f137np4h-zPTq_CbaRFUOR_glUFs2UA) to discuss.
+- its own UI
+- its own hooks
+- its own API layer
+- its own types
 
-📰 Make our Editor-in-chief happy by [reading the React Native Newsletter](https://reactnativenewsletter.com/).
+As more features are added, the codebase stays easier to read, test, and maintain.
+
+---
+
+## Future Improvements
+
+If more time were available, useful next steps would be:
+
+- pagination for the full episodes catalog
+- favorites and local persistence
+- unit tests for hooks and service functions
+- integration tests for navigation flows
+- image caching and performance tuning
+- richer accessibility support
+
+---
+
+## Troubleshooting
+
+### No development build installed
+
+If Expo reports that no development build is installed, run:
+
+```bash
+npm run ios
+```
+
+or
+
+```bash
+npm run android
+```
+
+### TypeScript validation
+
+To verify the project compiles:
+
+```bash
+npm run compile
+```
+
+---
+
+## Summary
+
+This repository demonstrates a modern React Native technical challenge implementation using strong typing, modular architecture, API-first filtering, reusable components, and a production-minded mobile UX.
