@@ -18,7 +18,7 @@ interface CharacterCardProps {
 export const CharacterCard = memo(function CharacterCard({ character }: CharacterCardProps) {
   const { theme, themed } = useAppTheme()
   const opacity = useRef(new Animated.Value(0)).current
-  const translateY = useRef(new Animated.Value(8)).current
+  const translateY = useRef(new Animated.Value(100)).current
 
   const statusStyle = useMemo(() => {
     switch (character.status) {
@@ -44,12 +44,12 @@ export const CharacterCard = memo(function CharacterCard({ character }: Characte
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 220,
+        duration: 500,
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
         toValue: 0,
-        duration: 220,
+        duration: 300,
         useNativeDriver: true,
       }),
     ]).start()
